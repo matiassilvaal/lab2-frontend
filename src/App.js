@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
+import Index from "./pages/Index";
+import Importar from "./pages/Importar";
+import Justificativo from "./pages/Justificativo";
+import Horasextras from "./pages/Horasextras";
+import Cplanilla from "./pages/Cplanilla";
+import Mplanilla from "./pages/Mplanilla";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Routes>
+        <Route path="/" element={<Index />} exact />
+        <Route path="/importar" element={<Importar />} exact />
+        <Route path="/justificativo" element={<Justificativo />} exact />
+        <Route path="/horasextras" element={<Horasextras />} exact />
+        <Route path="/cplanilla" element={<Cplanilla />} exact />
+        <Route path="/mplanilla" element={<Mplanilla />} exact />
+      </Routes>
+    </Container>
   );
 }
 
