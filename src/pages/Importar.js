@@ -2,26 +2,36 @@ import "../App.css";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Col, Container, Row, Form, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Form, Alert } from "react-bootstrap";
 
 const Importar = () => {
-  const navigate = useNavigate();
   const [data, setData] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert2, setShowAlert2] = useState(false);
+  const [messageAlert, setMessageAlert] = useState("");
+  const [messageAlert2, setMessageAlert2] = useState("");
+  const [flag, setFlag] = useState(false);
   const handleUpload = (e) => {
     e.preventDefault();
-
+    setFlag(false);
+    setShowAlert(false);
+    setShowAlert2(true);
+    setMessageAlert2("Cargando datos...");
     let url = "http://localhost:8080/data";
 
     axios
       .post(url)
       .then((response) => {
+        setShowAlert2(false);
+        setMessageAlert2("");
         console.log(response);
+        setShowAlert(true);
+        setMessageAlert("Se han calculado correctamente los datos.");
+        setFlag(true);
       })
       .catch((err) => {
         alert(err.response.data);
       });
-    navigate("/");
   };
 
   const getData = async () => {
@@ -35,16 +45,42 @@ const Importar = () => {
       console.log(error.message);
     }
   };
-
   useEffect(() => {
-    getData();
-  }, []);
+    if (flag) getData();
+    else setData([]);
+  }, [flag]);
   return (
     <div className="glass-panel">
       <h1>
         <a href="/">Recursos Humanos MueblesStgo</a>
       </h1>
       <p>Importar archivo data.</p>
+      <Alert
+        show={showAlert}
+        style={{
+          width: "100%",
+          height: "40px",
+          textAlign: "center",
+        }}
+        variant="alert-success"
+      >
+        <p style={{ marginTop: "-40px" }} className="alert alert-success">
+          {messageAlert}
+        </p>
+      </Alert>
+      <Alert
+        show={showAlert2}
+        style={{
+          width: "100%",
+          height: "40px",
+          textAlign: "center",
+        }}
+        variant="alert-info"
+      >
+        <p style={{ marginTop: "-40px" }} className="alert alert-info">
+          {messageAlert2}
+        </p>
+      </Alert>
       <Form onSubmit={handleUpload}>
         <div className="container-left">
           <button type="submit" className="glass-button">
@@ -89,7 +125,7 @@ const Importar = () => {
           </thead>
           <tbody style={{ color: "rgba(255,255,255,0.6)" }}>
             {data.map((empleado) => (
-              <tr key={empleado.fecha}>
+              <tr key={empleado.id}>
                 <td>{empleado.fecha}</td>
                 <td>{empleado.hora}</td>
                 <td>{empleado.rut}</td>
