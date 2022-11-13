@@ -2,11 +2,17 @@ import "../App.css";
 import { useEffect, useState } from "react";
 import { Table, Alert } from "react-bootstrap";
 import axios from "axios";
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 
 const Mplanilla = () => {
   const [planilla, setPlanilla] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
+  const navigate = useNavigate();
+  const navigateTo = (path) => {
+    navigate(path);
+  };
   const getPlanilla = async () => {
     try {
       let url = "http://localhost:8080/mostrarplanilla";
@@ -29,9 +35,7 @@ const Mplanilla = () => {
   }, []);
   return (
     <div className="glass-panel">
-      <h1>
-        <a href="/">Recursos Humanos MueblesStgo</a>
-      </h1>
+      <Logo />
       <p>Información de la planilla de sueldos.</p>
       <Alert
         show={showAlert}
@@ -47,7 +51,12 @@ const Mplanilla = () => {
         </p>
       </Alert>
       <div className="container-left">
-        <a className="glass-button" href="/cplanilla" role="button">
+        <a
+          className="glass-button"
+          href="/cplanilla"
+          role="button"
+          style={{ textAlign: "center" }}
+        >
           Calcular planilla
         </a>
       </div>
@@ -99,9 +108,13 @@ const Mplanilla = () => {
           </tbody>
         </Table>
         <div className="container-right">
-          <a className="glass-button" href="/" role="button">
-            volver
-          </a>
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/")}
+            style={{ textAlign: "center" }}
+          >
+            Volver al inicio
+          </button>
         </div>
       </div>
     </div>

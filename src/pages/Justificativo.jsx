@@ -2,6 +2,8 @@ import "../App.css";
 import { useState } from "react";
 import { Alert } from "react-bootstrap";
 import axios from "axios";
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 
 const Justificativo = () => {
   const [fecha, setFecha] = useState("");
@@ -10,6 +12,10 @@ const Justificativo = () => {
   const [showAlert2, setShowAlert2] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageAlert2, setMessageAlert2] = useState("");
+  const navigate = useNavigate();
+  const navigateTo = (path) => {
+    navigate(path);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowAlert(false);
@@ -38,10 +44,8 @@ const Justificativo = () => {
   };
 
   return (
-    <div className="glass-panel">
-      <h1>
-        <a href="/">Recursos Humanos MueblesStgo</a>
-      </h1>
+    <div className="glass-panel" style={{}}>
+      <Logo />
       <p>Ingresar un justificativo.</p>
       <Alert
         show={showAlert}
@@ -71,35 +75,37 @@ const Justificativo = () => {
       </Alert>
       <form onSubmit={handleSubmit}>
         <div className="glass-p2">
-          <div>
-            <p>Fecha:</p>
-            <label>
+          <div className="form-group">
+            <p style={{ paddingTop: "50px", paddingBottom: "1px" }}>
+              Fecha:
               <input
                 type="text"
                 value={fecha}
                 onChange={(e) => setFecha(e.target.value)}
                 placeholder="AAAA-MM-DD"
               />
-            </label>
-            <p>Rut:</p>
-            <label>
+            </p>
+          </div>
+          <div className="form-group">
+            <p style={{ paddingTop: "30px", paddingBottom: "1px" }}>
+              Rut:
               <input
                 type="text"
                 value={rut}
                 onChange={(e) => setRut(e.target.value)}
                 placeholder="XXXXXXXX-X"
               />
-            </label>
+            </p>
           </div>
-          <div>
+          <div style={{ paddingTop: "100px" }}>
             <button type="submit" className="glass-button">
               Ingresar justificativo
             </button>
           </div>
           <div>
-            <a className="glass-button" href="/" role="button">
-              Volver
-            </a>
+            <button className="glass-button" onClick={() => navigateTo("/")}>
+              Volver al inicio
+            </button>
           </div>
         </div>
       </form>

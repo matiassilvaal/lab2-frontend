@@ -1,39 +1,57 @@
 import "../App.css";
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const navigateTo = (path) => {
+    navigate(path);
+  };
   return (
     <div className="glass-panel">
-      <h1>
-        <a href="/">Recursos Humanos MueblesStgo</a>
-      </h1>
-
+      <Logo />
       <p>Bienvenido a la aplicación web de Recursos Humanos de MueblesStgo.</p>
       <p>¿Qué desea hacer a continuación?</p>
       <div className="glass-p2">
         <div>
-          <a className="glass-button" href="/importar" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/importar")}
+          >
             Importar data
-          </a>
+          </button>
         </div>
         <div>
-          <a className="glass-button" href="/justificativo" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/justificativo")}
+          >
             Ingresar justificativo
-          </a>
+          </button>
         </div>
         <div>
-          <a className="glass-button" href="/horasextras" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/horasextras")}
+          >
             Ingresar horas extras
-          </a>
+          </button>
         </div>
         <div>
-          <a className="glass-button" href="/cplanilla" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/cplanilla")}
+          >
             Calcular planilla de sueldos
-          </a>
+          </button>
         </div>
         <div>
-          <a className="glass-button" href="/mplanilla" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/mplanilla")}
+          >
             Mostrar planilla de sueldos
-          </a>
+          </button>
         </div>
       </div>
     </div>

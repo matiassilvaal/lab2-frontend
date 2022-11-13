@@ -3,20 +3,25 @@ import Table from "react-bootstrap/Table";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Form, Alert } from "react-bootstrap";
-
+import Logo from "../components/Logo";
+import { useNavigate } from "react-router-dom";
 const Importar = () => {
   const [data, setData] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageAlert2, setMessageAlert2] = useState("");
-  const [flag, setFlag] = useState(false);
+  const navigate = useNavigate();
+  const navigateTo = (path) => {
+    navigate(path);
+  };
   const handleUpload = (e) => {
     e.preventDefault();
-    setFlag(false);
     setShowAlert(false);
     setShowAlert2(true);
+    setData([]);
     setMessageAlert2("Cargando datos...");
+
     let url = "http://localhost:8080/data";
 
     axios
@@ -27,7 +32,6 @@ const Importar = () => {
         console.log(response);
         setShowAlert(true);
         setMessageAlert("Se han calculado correctamente los datos.");
-        setFlag(true);
       })
       .catch((err) => {
         alert(err.response.data);
@@ -46,14 +50,11 @@ const Importar = () => {
     }
   };
   useEffect(() => {
-    if (flag) getData();
-    else setData([]);
-  }, [flag]);
+    getData();
+  }, [data]);
   return (
     <div className="glass-panel">
-      <h1>
-        <a href="/">Recursos Humanos MueblesStgo</a>
-      </h1>
+      <Logo />
       <p>Importar archivo data.</p>
       <Alert
         show={showAlert}
@@ -135,9 +136,13 @@ const Importar = () => {
         </Table>
       </div>
       <div className="container-right">
-        <a className="glass-button" href="/" role="button">
-          Volver
-        </a>
+        <button
+          className="glass-button"
+          onClick={() => navigateTo("/")}
+          style={{ textAlign: "center" }}
+        >
+          Volver al inicio
+        </button>
       </div>
     </div>
   );

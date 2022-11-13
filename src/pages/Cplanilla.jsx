@@ -2,12 +2,14 @@ import "../App.css";
 import { useState } from "react";
 import { Form, Alert } from "react-bootstrap";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
+import Logo from "../components/Logo";
 const Cplanilla = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageAlert2, setMessageAlert2] = useState("");
+  const navigate = useNavigate();
   const handleUpload = (e) => {
     e.preventDefault();
     setShowAlert(false);
@@ -27,11 +29,12 @@ const Cplanilla = () => {
         alert(err.response.data);
       });
   };
+  const navigateTo = (path) => {
+    navigate(path);
+  };
   return (
     <div className="glass-panel">
-      <h1>
-        <a href="/">Recursos Humanos MueblesStgo</a>
-      </h1>
+      <Logo />
       <p>Calculo automatico de planillas</p>
       <Alert
         show={showAlert}
@@ -59,7 +62,7 @@ const Cplanilla = () => {
           {messageAlert2}
         </p>
       </Alert>
-      <div className="glass-p2">
+      <div className="glass-p2" style={{}}>
         <Form onSubmit={handleUpload}>
           <div>
             <button type="submit" className="glass-button">
@@ -68,14 +71,21 @@ const Cplanilla = () => {
           </div>
         </Form>
         <div>
-          <a className="glass-button" href="/mplanilla" role="button">
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/mplanilla")}
+          >
             Mostrar planilla
-          </a>
+          </button>
         </div>
         <div>
-          <a className="glass-button" href="/" role="button">
-            Volver
-          </a>
+          <button
+            className="glass-button"
+            onClick={() => navigateTo("/")}
+            type="submit"
+          >
+            Volver al inicio
+          </button>
         </div>
       </div>
     </div>
