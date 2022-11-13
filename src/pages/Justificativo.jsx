@@ -10,36 +10,31 @@ const Justificativo = () => {
   const [showAlert2, setShowAlert2] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const [messageAlert2, setMessageAlert2] = useState("");
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setShowAlert(false);
     setShowAlert2(false);
-    let url = "http://localhost:8080/justificativo";
-    let data = {
-      fecha: fecha,
-      rut: rut,
-    };
-    if (fecha === "" || rut === "") {
-      setShowAlert2(true);
-      setMessageAlert2("Debe ingresar todos los datos.");
-    } else {
-      let response = axios.post(url, data);
-      if (response.status === 200) {
-        setShowAlert(true);
-        setMessageAlert("Se ha generado el justificativo correctamente.");
-      } else {
+    try {
+      let url =
+        "http://localhost:8080/justificativo?fecha=" + fecha + "&rut=" + rut;
+      if (fecha === "" || rut === "") {
         setShowAlert2(true);
-        setMessageAlert2("No se ha podido generar el justificativo.");
+        setMessageAlert2("Debe ingresar todos los datos.");
+      } else {
+        let response = await axios.post(url);
+        console.log(response.status);
+        if (response.status === 200) {
+          setShowAlert(true);
+          setMessageAlert("Se ha generado el justificativo correctamente.");
+          setShowAlert2(false);
+          setMessageAlert2("");
+        }
       }
-    }
-
-    /*if (fecha === "" || rut === "") {
+    } catch (error) {
+      console.log(error.message);
       setShowAlert2(true);
-      setMessageAlert2("Debe ingresar todos los datos.");
-    } else {
-      setShowAlert(true);
-      setMessageAlert("Se ha generado el justificativo.");
-    }*/
+      setMessageAlert2("No se ha podido generar el justificativo.");
+    }
   };
 
   return (
@@ -83,7 +78,7 @@ const Justificativo = () => {
                 type="text"
                 value={fecha}
                 onChange={(e) => setFecha(e.target.value)}
-                placeholder="2022-09-09"
+                placeholder="AAAA-MM-DD"
               />
             </label>
             <p>Rut:</p>
@@ -92,7 +87,7 @@ const Justificativo = () => {
                 type="text"
                 value={rut}
                 onChange={(e) => setRut(e.target.value)}
-                placeholder="12.345.678-K"
+                placeholder="XXXXXXXX-X"
               />
             </label>
           </div>
