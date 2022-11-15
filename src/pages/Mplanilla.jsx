@@ -10,8 +10,20 @@ const Mplanilla = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [messageAlert, setMessageAlert] = useState("");
   const navigate = useNavigate();
+  function hasJWT() {
+    let flag = false;
+
+    //check user has JWT token
+    localStorage.getItem("token") ? (flag = true) : (flag = false);
+
+    return flag;
+  }
   const navigateTo = (path) => {
-    navigate(path);
+    if (path === "/cplanilla" && !hasJWT()) {
+      navigate("/login");
+    } else {
+      navigate(path);
+    }
   };
   const getPlanilla = async () => {
     try {
@@ -51,14 +63,13 @@ const Mplanilla = () => {
         </p>
       </Alert>
       <div className="container-left">
-        <a
+        <button
           className="glass-button"
-          href="/cplanilla"
-          role="button"
+          onClick={() => navigateTo("/cplanilla")}
           style={{ textAlign: "center" }}
         >
           Calcular planilla
-        </a>
+        </button>
       </div>
       <div
         className="glass-toolbar"

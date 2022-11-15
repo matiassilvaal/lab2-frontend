@@ -4,6 +4,7 @@ import { Form, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
+
 const Cplanilla = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlert2, setShowAlert2] = useState(false);
@@ -26,12 +27,14 @@ const Cplanilla = () => {
         setMessageAlert("Se han calculado correctamente los datos.");
       })
       .catch((err) => {
-        alert(err.response.data);
+        setShowAlert2(true);
+        setMessageAlert2("No eres administrador de la plataforma.");
       });
   };
   const navigateTo = (path) => {
     navigate(path);
   };
+
   return (
     <div className="glass-panel">
       <Logo />
